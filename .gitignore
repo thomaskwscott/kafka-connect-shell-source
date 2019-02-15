@@ -1,3 +1,7 @@
+#maven
+target/
+docs_build/_build
+
 # Compiled class file
 *.class
 
