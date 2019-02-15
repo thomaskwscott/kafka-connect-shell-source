@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Shell Source Connector &mdash; Kafka Connect Shell Source 5.1.0-SNAPSHOT documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Shell Source Configuration Options" href="source_config_options.html" />
+    <link rel="prev" title="Kafka Connect Shell Source Connector" href="index.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Kafka Connect Shell Source
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Shell Source Connector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#quick-start-reading-a-file">Quick Start - Reading a file.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-the-kafka-topic">Create the Kafka topic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-test-file-and-a-script-to-read-it">Create a test file and a script to read it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-the-shell-source-connector">Load the Shell Source Connector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#confirm-the-results">Confirm the results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="source_config_options.html">Shell Source Configuration Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Kafka Connect Shell Source</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Shell Source Connector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/connector.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="shell-source-connector">
+<span id="connector"></span><h1>Shell Source Connector<a class="headerlink" href="#shell-source-connector" title="Permalink to this headline">¶</a></h1>
+<p>The Shell source connector runs shell commands periodically and produces the results of these to Kafka.
+The output of the command is read line by line with each line being ingested into Kafka as a separate message</p>
+</div>
+<div class="section" id="quick-start-reading-a-file">
+<h1>Quick Start - Reading a file.<a class="headerlink" href="#quick-start-reading-a-file" title="Permalink to this headline">¶</a></h1>
+<p><strong>Prerequisites:</strong></p>
+<ul class="simple">
+<li><cite>Confluent Platform &lt;https://docs.confluent.io/current/installation/installing_cp/index.html&gt;</cite> is installed and services are running. This quick start assumes that you are using cp-demo &lt;<a class="reference external" href="https://github.com/confluentinc/cp-demo">https://github.com/confluentinc/cp-demo</a>&gt;, but standalone installations are also supported.</li>
+</ul>
+<p>In this demo we’ll use the Shell Source connector to read lines from a file into Kafka.</p>
+<div class="section" id="create-the-kafka-topic">
+<h2>Create the Kafka topic<a class="headerlink" href="#create-the-kafka-topic" title="Permalink to this headline">¶</a></h2>
+<p>Before we can read the file we need to create a topic to hold the file data.
+From inside a cp-demo broker container (<code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">exec</span> <span class="pre">kafka1</span> <span class="pre">bash</span></code>):</p>
+<ol class="arabic">
+<li><p class="first">Create topics:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kafka-topics --zookeeper zookeeper:2181 --topic file.data --create --replication-factor <span class="m">1</span> --partitions <span class="m">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="create-a-test-file-and-a-script-to-read-it">
+<h2>Create a test file and a script to read it<a class="headerlink" href="#create-a-test-file-and-a-script-to-read-it" title="Permalink to this headline">¶</a></h2>
+<p>From inside a cp-demo Connect container (<code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">exec</span> <span class="pre">connect</span> <span class="pre">bash</span></code>):</p>
+<ol class="arabic">
+<li><p class="first">Create a test file:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat /proc/cpuinfo &gt; /etc/kafka/secrets/cpuinfo
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Create a test script:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">&quot;cd /etc/kafka/secrets&quot;</span> &gt; /etc/kafka/secrets/readFile.sh
+<span class="nb">echo</span> <span class="s2">&quot;if [ -f cpuinfo ]; then&quot;</span> &gt;&gt; /etc/kafka/secrets/readFile.sh
+<span class="nb">echo</span> <span class="s2">&quot;cat cpuinfo&quot;</span> &gt;&gt; /etc/kafka/secrets/readFile.sh
+<span class="nb">echo</span> <span class="s2">&quot;mv cpuinfo cpuinfo.processed&quot;</span> &gt;&gt; /etc/kafka/secrets/readFile.sh
+<span class="nb">echo</span> <span class="s2">&quot;fi&quot;</span> &gt;&gt; /etc/kafka/secrets/readFile.sh
+chmod +x /etc/kafka/secrets/readfile.sh
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="load-the-shell-source-connector">
+<h2>Load the Shell Source Connector<a class="headerlink" href="#load-the-shell-source-connector" title="Permalink to this headline">¶</a></h2>
+<p>Now we submit the Shell Source connector to the cp-demo connect instance this will load our test file into Kafka:</p>
+<ol class="arabic">
+<li><p class="first">From outside the container in the cp-demo root directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> <span class="se">\</span>
+--cert scripts/security/connect.certificate.pem <span class="se">\</span>
+--key scripts/security/connect.key <span class="se">\</span>
+--tlsv1.2 <span class="se">\</span>
+--cacert scripts/security/snakeoil-ca-1.crt <span class="se">\</span>
+--data <span class="s1">&#39;{ \</span>
+<span class="s1">&quot;name&quot;: &quot;shell-source&quot;, \</span>
+<span class="s1">&quot;config&quot;: {&quot;connector.class&quot;:&quot;uk.co.threefi.connect.shell.ShellSourceConnector&quot;, \</span>
+<span class="s1">        &quot;tasks.max&quot;:&quot;1&quot;, \</span>
+<span class="s1">        &quot;shell.command&quot;:&quot;sh /etc/kafka/secrets/readFile.sh&quot;, \</span>
+<span class="s1">        &quot;block.ms&quot;: &quot;3000&quot;, \</span>
+<span class="s1">        &quot;topic&quot;:&quot;file.data&quot; \</span>
+<span class="s1">        }}&#39;</span> <span class="se">\</span>
+https://localhost:8083/connectors
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="confirm-the-results">
+<h2>Confirm the results<a class="headerlink" href="#confirm-the-results" title="Permalink to this headline">¶</a></h2>
+<p>Confirm messages on the topic from inside a cp-demo Broker container (<code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">exec</span> <span class="pre">kafka1</span> <span class="pre">bash</span></code>):</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kafka-console-consumer --bootstrap-server localhost:10091 --topic file.data --from-beginning
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="features">
+<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
+<p>The special strings <code class="docutils literal notranslate"><span class="pre">${key}</span></code>, <code class="docutils literal notranslate"><span class="pre">${topic}</span></code> and <code class="docutils literal notranslate"><span class="pre">${value}</span></code> can be used in the shell.commandproperty to
+inject message data into the command run.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="source_config_options.html" class="btn btn-neutral float-right" title="Shell Source Configuration Options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Kafka Connect Shell Source Connector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, 3Fi LTD..
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'5.1.0-SNAPSHOT',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
