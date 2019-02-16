@@ -1,3 +1,8 @@
+.gitignore
+
+#intellij
+.idea/
+
 #maven
 target/
 docs_build/_build

@@ -11,7 +11,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>share/java/kafka-connect-shell/</outputDirectory>
+            <outputDirectory>share/java/kafka-connect-shell-source/</outputDirectory>
         </dependencySet>
     </dependencySets>
 </assembly>

@@ -1,5 +1,5 @@
 # Kafka Connect Shell Source Connector
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthomaskwscott%2Fkafka-connect-shell.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthomaskwscott%2Fkafka-connect-shell?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fthomaskwscott%2Fkafka-connect-shell-source.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fthomaskwscott%2Fkafka-connect-shell-source?ref=badge_shield)
 
 kafka-connect-shell-source is a [Kafka Connector](http://kafka.apache.org/documentation.html#connect)
 for invoking Shell commands. The Source connector invokes shell commands periodically and loads 

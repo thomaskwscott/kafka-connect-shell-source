@@ -148,9 +148,9 @@
                             <title>Kafka Connect Shell</title>
                             <documentationUrl>https://github.com/thomaskwscott/kafka-connect-shell-source/wiki</documentationUrl>
                             <description>
-                                The Shell sink connector allows you to run shell commands and ingest the output into Kafka
+                                The Shell source connector allows you to run shell commands based on messages from Kafka.
                             </description>
-                            <logo>logos/shell.jpg</logo>
+                            <logo>logos/shell.png</logo>
 
                             <supportProviderName>Thomas Scott</supportProviderName>
                             <supportSummary>Support is provided as best effort only. Please register any issues in the github project.</supportSummary>
