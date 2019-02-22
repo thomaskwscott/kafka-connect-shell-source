@@ -146,9 +146,9 @@
                         </goals>
                         <configuration>
                             <title>Kafka Connect Shell</title>
-                            <documentationUrl>https://github.com/thomaskwscott/kafka-connect-shell-source/wiki</documentationUrl>
+                            <documentationUrl>https://thomaskwscott.github.io/kafka-connect-shell-source</documentationUrl>
                             <description>
-                                The Shell source connector allows you to run shell commands based on messages from Kafka.
+                                The Shell source connector allows you to run shell commands and ingest the output into kafka.
                             </description>
                             <logo>logos/shell.png</logo>
 
@@ -156,6 +156,7 @@
                             <supportSummary>Support is provided as best effort only. Please register any issues in the github project.</supportSummary>
                             <supportUrl>https://github.com/thomaskwscott/kafka-connect-shell-source/issues</supportUrl>
                             <supportLogo>logos/shell.png</supportLogo>
+                            <sourceUrl>https://github.com/thomaskwscott/kafka-connect-shell-source</sourceUrl>
 
                             <ownerUsername>thomaskwscott</ownerUsername>
                             <ownerType>user</ownerType>
@@ -164,7 +165,7 @@
                             <ownerLogo>logos/thomaskwscott.png</ownerLogo>
 
                             <componentTypes>
-                                <componentType>sink</componentType>
+                                <componentType>source</componentType>
                             </componentTypes>
 
                             <tags>
@@ -172,7 +173,7 @@
                             </tags>
                             
 
-                            <confluentControlCenterIntegration>false</confluentControlCenterIntegration>
+                            <confluentControlCenterIntegration>true</confluentControlCenterIntegration>
                         </configuration>
                     </execution>
                 </executions>
